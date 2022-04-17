@@ -1,1 +1,1 @@
-# rock-paper-scissors
+# This a script implementing Rock, Paper, Scissors in JavaScript.
