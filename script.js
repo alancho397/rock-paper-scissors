@@ -1,4 +1,5 @@
-game();
+let scorePlayer = 0;
+let scoreComputer = 0;
 
 /* Computer randomly plays rock, paper, or scissors. 
 0 - Rock, 1 - Paper, 2 - Scissors */
@@ -15,7 +16,6 @@ function computerPlay(){
 
 /* Determines who wins the round */
 function roundPlay(playerSelection, computerSelection){
-    playerSelection = playerSelection.toLowerCase();
     if (playerSelection === "rock"){
         if (computerSelection === "rock"){
             return "Tie";
@@ -43,27 +43,24 @@ function roundPlay(playerSelection, computerSelection){
     }
 }
 
-/* Creates a Best of 5 game and determines the winner of the game */
-function game(){
-    let playerWins = 0;
-    let computerWins = 0;
-    let result = "";
-    for (let i = 0; i < 5; i++){ //Plays 5 rounds and keeps track of score
-        let playerSelection = prompt("What would you like to play? Rock, paper, or scissors? ");
-        result = roundPlay(playerSelection, computerPlay());
-        alert(result);
-        if (result === "You Win"){
-            playerWins += 1;
-        } else if (result === "You Lose"){
-            computerWins += 1;
-        }
-        alert(`The score is ${playerWins} to ${computerWins}.`);
-    }
-    if (playerWins > computerWins){ //Determines who wins the series
-        alert(`You win the series ${playerWins} to ${computerWins}!`);
-    } else if (computerWins > playerWins){
-        alert(`You lose the series ${playerWins} to ${computerWins}!`);
-    } else {
-        alert("It's a tie!");
+function score(result){ //Keeps track of the score
+    if (result === "You Win"){
+        scorePlayer += 1;
+    } else if (result === "You Lose"){
+        scoreComputer += 1;
     }
 }
+
+let scoreTracker = document.getElementById('score-tracker');
+let result = document.getElementById('result');
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => button.addEventListener('click', function(){ //Every time the button is pressed, it plays a round of rock, paper, scissors
+    score(roundPlay(button.className, computerPlay()))
+    scoreTracker.textContent = `The score is ${scorePlayer} to ${scoreComputer}.`
+    if (scorePlayer === 5){
+        result.textContent = 'You are the winner!';
+    }  else if (scoreComputer === 5){
+        result.textContent = 'You\'ve lost!';
+    }
+    }
+    ));
